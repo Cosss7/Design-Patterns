@@ -23,6 +23,8 @@ public:
         std::cout << "Room clone." << std::endl;
         return Room(*this);
     }
+
+    virtual ~Room() {}
 };
 
 class MagicRoom : public Room {
@@ -37,6 +39,8 @@ public:
         std::cout << "Magic Room clone." << std::endl;
         return MagicRoom(*this);
     }
+
+    ~MagicRoom() {}
 };
 
 class MazeFactory{

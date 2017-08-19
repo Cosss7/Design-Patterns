@@ -12,7 +12,8 @@
 
 #include <iostream>
 
-class Product{
+namespace Builder {
+class Product {
 public:
 
     class Builder;
@@ -24,15 +25,16 @@ private:
     const char c;
 
     // called by builder
-    Product(const int i, const float f, const char c) : i(i), f(f), c(c) { }
+    Product(const int i, const float f, const char c) : i(i), f(f), c(c) {}
 
 public:
     // Product specific functionality
     void print();
+
     void doSomething();
 };
 
-class Product::Builder{
+class Product::Builder {
 private:
     // variables needed for construction of object of Product class
     // C++11 can initialize on declaration
@@ -52,30 +54,41 @@ public:
 
     // sets custom values for Product creation
     // returns Builder for shorthand inline usage (same way as cout <<)
-    Builder& setI( const int i ){ this->i = i; return *this; }
-    Builder& setF( const float f ){ this->f = f; return *this; }
-    Builder& setC( const char c ){ this->c = c; return *this; }
+    Builder &setI(const int i) {
+        this->i = i;
+        return *this;
+    }
+
+    Builder &setF(const float f) {
+        this->f = f;
+        return *this;
+    }
+
+    Builder &setC(const char c) {
+        this->c = c;
+        return *this;
+    }
 
     // prepare specific frequently desired Product
     // returns Builder for shorthand inline usage (same way as cout <<)
-    Builder& setProductP(){
+    Builder &setProductP() {
         this->i = 42;
-        this->f = -1.0f/12.0f;
+        this->f = -1.0f / 12.0f;
         this->c = '@';
 
         return *this;
     }
 
     // produce desired Product
-    Product build(){
+    Product build() {
         // Here, optionaly check variable consistency
         // and also if Product is buildable from given information
 
-        return Product( this->i, this->f, this->c );
+        return Product(this->i, this->f, this->c);
     }
 };
 
-void Product::print(){
+void Product::print() {
     using namespace std;
 
     cout << "Product internals dump:" << endl;
@@ -84,9 +97,9 @@ void Product::print(){
     cout << "c: " << this->c << endl;
 }
 
-void Product::doSomething(){}
+void Product::doSomething() {}
 
-void Builder(){
+void Builder() {
     // simple usage
     Product p1 = Product::Builder().setI(2).setF(0.5f).setC('x').build();
     p1.print(); // test p1
@@ -94,9 +107,12 @@ void Builder(){
     // advanced usage
     Product::Builder b;
     b.setProductP();
+
+    // this can be RVO or call move constructor.
     Product p2 = b.build(); // get Product P object
     b.setC('!'); // customize Product P
     Product p3 = b.build();
     p2.print(); // test p2
     p3.print(); // test p3
 }
+} // namespace Builder
