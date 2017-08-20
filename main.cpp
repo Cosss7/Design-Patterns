@@ -6,13 +6,14 @@
 #include "Prototype.h"
 #include "Singleton.h"
 #include "Adapter.h"
+#include "Bridge.h"
 
 
 int main() {
 
     //AbstractFactory::AbstractFactory();
 
-    Builder::Builder();
+    //Builder::Builder();
 
     //Factory::FactoryMethod();
 
@@ -22,7 +23,7 @@ int main() {
 
     //Adapter::Adapter();
 
-
+    //Bridge::Bridge();
 
     return 0;
 }
